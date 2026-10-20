@@ -10,7 +10,7 @@ struct RootView: View {
     @AppStorage("didOnboard") private var didOnboard = false
     @AppStorage("remindersOn") private var remindersOn = false
     @AppStorage("reminderLeadDays") private var reminderLeadDays = 30
-    @State private var showOfficer = false
+    @State private var showReferenceCard = false
 
     var body: some View {
         TabView {
@@ -25,9 +25,9 @@ struct RootView: View {
         }
         .overlay(alignment: .bottomTrailing) {
             Button {
-                showOfficer = true
+                showReferenceCard = true
             } label: {
-                Label("Show Officer", systemImage: "checkmark.shield.fill")
+                Label("Quick-Reference Card", systemImage: "checkmark.shield.fill")
                     .font(.headline)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
@@ -39,8 +39,8 @@ struct RootView: View {
             .padding(.bottom, 64)
             .accessibilityHint("Opens your credentials full screen")
         }
-        .fullScreenCover(isPresented: $showOfficer) {
-            OfficerCardView()
+        .fullScreenCover(isPresented: $showReferenceCard) {
+            QuickReferenceCardView()
         }
         .fullScreenCover(isPresented: Binding(get: { !didOnboard }, set: { if !$0 { didOnboard = true } })) {
             OnboardingView { didOnboard = true }
@@ -88,7 +88,7 @@ struct OnboardingView: View {
                     .multilineTextAlignment(.center)
             }
             VStack(alignment: .leading, spacing: 16) {
-                Label("Show Officer card with your certificates, ready in one tap", systemImage: "checkmark.shield")
+                Label("Quick-Reference Card with your certificates, ready in one tap", systemImage: "checkmark.shield")
                 Label("Hangar with serials, Remote ID and maintenance", systemImage: "airplane")
                 Label("Pilot log with location, time and totals", systemImage: "book.closed")
             }

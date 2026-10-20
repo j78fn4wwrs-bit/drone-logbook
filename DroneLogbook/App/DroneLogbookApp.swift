@@ -7,7 +7,7 @@ enum AppConfig {
     static let proID = "com.mikejohnson.dronelogbook.pro"
     static let privacyURL = URL(string: "https://github.com/j78fn4wwrs-bit/drone-logbook/blob/main/PRIVACY.md")!
     static let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
-    static let officerCardLine = "Reference copy. Not an official FAA document. Carry your certificate."
+    static let referenceCardLine = "Reference copy. Not an official FAA document. Carry your certificate."
     static let disclaimer = "Reference copy only, not an official FAA credential."
     static let proFeatures = [
         "Unlimited drones in your hangar",
@@ -15,7 +15,7 @@ enum AppConfig {
         "Expiry reminders: recurrent training, registration, insurance and waivers",
         "Support an independent developer"
     ]
-    static let freeTierNote = "Free forever: 1 drone, the full pilot log and the Show Officer card."
+    static let freeTierNote = "Free forever: 1 drone, the full pilot log and the Quick-Reference Card."
 }
 
 @main

@@ -139,7 +139,7 @@ struct DroneDetailView: View {
     @Bindable var drone: Drone
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @AppStorage("officerDroneUUID") private var officerDroneUUID = ""
+    @AppStorage("referenceCardDroneUUID") private var referenceCardDroneUUID = ""
     @State private var showEdit = false
     @State private var showAddMaintenance = false
     @State private var confirmDelete = false
@@ -158,8 +158,8 @@ struct DroneDetailView: View {
                         Text("\(drone.flights.count) flights · \(formatMinutes(drone.totalMinutes))")
                             .font(.subheadline.monospacedDigit())
                             .foregroundStyle(Color.textSecondary)
-                        if officerDroneUUID == drone.uuid.uuidString {
-                            StatusChip(text: "On Officer card", color: .brand)
+                        if referenceCardDroneUUID == drone.uuid.uuidString {
+                            StatusChip(text: "On Quick-Reference Card", color: .brand)
                         }
                     }
                 }
@@ -201,8 +201,8 @@ struct DroneDetailView: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button("Edit") { showEdit = true }
-                    Button("Set as active drone for Officer card") {
-                        officerDroneUUID = drone.uuid.uuidString
+                    Button("Set as active drone for Quick-Reference Card") {
+                        referenceCardDroneUUID = drone.uuid.uuidString
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")

@@ -11,6 +11,9 @@ Drone Pocket Logbook does not collect, transmit or sell any personal data. There
 - **Purchases** are handled by Apple through the App Store. We never see your payment details.
 - **Exports** (CSV/PDF) are created only when you choose to share them.
 
-Deleting the app deletes its data. Questions: contact the developer through the App Store listing.
+Deleting the app deletes its data.
+
+**Publisher:** I Like Color
+**Contact:** [CONTACT EMAIL]
 
 _Reference copy only, not an official FAA credential._

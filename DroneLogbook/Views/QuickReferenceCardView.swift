@@ -3,12 +3,12 @@ import SwiftData
 import UIKit
 import MJKit
 
-struct OfficerCardView: View {
+struct QuickReferenceCardView: View {
     @EnvironmentObject private var profileStore: PilotProfileStore
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Drone.createdAt) private var drones: [Drone]
     @Query private var documents: [DocumentRecord]
-    @AppStorage("officerDroneUUID") private var officerDroneUUID = ""
+    @AppStorage("referenceCardDroneUUID") private var referenceCardDroneUUID = ""
     @State private var savedBrightness: CGFloat = 0.5
     @State private var showCertificate = false
     @State private var showProfileEditor = false
@@ -16,7 +16,7 @@ struct OfficerCardView: View {
     private var profile: PilotProfile { profileStore.profile }
 
     private var activeDrone: Drone? {
-        drones.first { $0.uuid.uuidString == officerDroneUUID } ?? drones.first
+        drones.first { $0.uuid.uuidString == referenceCardDroneUUID } ?? drones.first
     }
 
     private var part107Doc: DocumentRecord? {
@@ -31,7 +31,7 @@ struct OfficerCardView: View {
                     topBar
                     card
                     buttons
-                    Text(AppConfig.officerCardLine)
+                    Text(AppConfig.referenceCardLine)
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
@@ -78,7 +78,7 @@ struct OfficerCardView: View {
             }
             .accessibilityLabel("Close")
             Spacer()
-            Text("Show Officer").font(.headline)
+            Text("Quick-Reference Card").font(.headline)
             Spacer()
             Button { UIScreen.main.brightness = 1.0 } label: {
                 Image(systemName: "sun.max.fill")
@@ -230,7 +230,7 @@ struct OfficerCardView: View {
 
             Menu {
                 ForEach(drones) { drone in
-                    Button(drone.displayName) { officerDroneUUID = drone.uuid.uuidString }
+                    Button(drone.displayName) { referenceCardDroneUUID = drone.uuid.uuidString }
                 }
             } label: {
                 Label("Switch Drone", systemImage: "arrow.left.arrow.right")
