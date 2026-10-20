@@ -3,7 +3,7 @@ import SwiftData
 import MJKit
 
 enum AppConfig {
-    static let appName = "Drone Logbook"
+    static let appName = "Drone Pocket Logbook"
     static let proID = "com.mikejohnson.dronelogbook.pro"
     static let privacyURL = URL(string: "https://github.com/j78fn4wwrs-bit/drone-logbook/blob/main/PRIVACY.md")!
     static let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!

@@ -9,12 +9,12 @@
       "localizations" : [
         {
           "description" : "Unlimited drones, PDF and CSV export, and expiry reminders.",
-          "displayName" : "Drone Logbook Pro",
+          "displayName" : "Drone Pocket Logbook Pro",
           "locale" : "en_US"
         }
       ],
       "productID" : "com.mikejohnson.dronelogbook.pro",
-      "referenceName" : "Drone Logbook Pro",
+      "referenceName" : "Drone Pocket Logbook Pro",
       "type" : "NonConsumable"
     }
   ],

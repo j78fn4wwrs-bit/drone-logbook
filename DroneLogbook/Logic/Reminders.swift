@@ -33,7 +33,7 @@ enum Reminders {
             ]
             for (n, fire) in fireDates.enumerated() where fire.0 > now {
                 let content = UNMutableNotificationContent()
-                content.title = "Drone Logbook"
+                content.title = "Drone Pocket Logbook"
                 content.body = fire.1
                 content.sound = .default
                 var comps = Calendar.current.dateComponents([.year, .month, .day], from: fire.0)

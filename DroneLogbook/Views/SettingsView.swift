@@ -72,7 +72,7 @@ struct SettingsView: View {
                         .onChange(of: reminderLeadDays) { _, _ in reschedule() }
                     }
                     if notificationsDenied {
-                        Text("Notifications are off for Drone Logbook in iOS Settings.")
+                        Text("Notifications are off for Drone Pocket Logbook in iOS Settings.")
                             .font(.footnote).foregroundStyle(Color.warning)
                     }
                 } header: {

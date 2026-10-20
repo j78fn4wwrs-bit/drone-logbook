@@ -1,4 +1,4 @@
-# Drone Logbook: iPhone test checklist
+# Drone Pocket Logbook: iPhone test checklist
 
 Build: `cd ~/drone-logbook && git pull && xcodegen`, then Cmd+R on your iPhone. Use fake numbers.
 
