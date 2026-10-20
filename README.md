@@ -20,7 +20,7 @@ Then follow `TESTING.md`.
 - **IACRA login** (username + FTN): Keychain only (this device only, never synced), Face ID/passcode gate, auto-relocks in background. Never in SwiftData, exports or logs.
 - **Hangar**: make, model, serial, registration, Remote ID serial, purchase date, firmware, status, photo; maintenance/mod log (batteries with cycles, props, firmware…).
 - **Pilot log**: date/time, "when in use" location with manual fallback, drone, duration, purpose, weather (typed by hand), notes, totals, search.
-- **Free**: 1 drone, log, officer card. **Pro**: unlimited drones, CSV/PDF export, expiry reminders.
+- **Free**: 1 drone with its full maintenance log (batteries, props, mods), the pilot log, the officer card and the vault. **Pro**: unlimited drones, CSV/PDF export, expiry reminders.
 - Widget: **skipped for v1** (needs an App Group + extension target; add in v1.1).
 
 No networking except StoreKit, no analytics, no accounts.

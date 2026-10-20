@@ -13,6 +13,10 @@ enum DocumentVault {
             try? fm.createDirectory(at: dir, withIntermediateDirectories: true,
                                     attributes: [.protectionKey: FileProtectionType.complete])
         }
+        var values = URLResourceValues()
+        values.isExcludedFromBackup = true
+        var mutableDir = dir
+        try? mutableDir.setResourceValues(values)
         return dir
     }
 

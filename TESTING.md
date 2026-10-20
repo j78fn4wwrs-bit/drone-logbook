@@ -18,6 +18,9 @@ Build: `cd ~/drone-logbook && git pull && xcodegen`, then Cmd+R on your iPhone. 
 14. [ ] Pro: Log export menu > CSV and PDF share sheets open; files contain flights and NO IACRA data.
 15. [ ] Settings > Expiry reminders on: iOS asks for notifications. (Optional: set a document expiry 8 days out with "7 days before" and check tomorrow.)
 16. [ ] Settings shows the disclaimer "Reference copy only, not an official FAA credential.", version, Restore Purchases and Privacy/Terms links.
-17. [ ] Airplane mode: everything except purchases still works.
+17. [ ] Delete the app, reinstall from Xcode: the IACRA login is gone (Keychain wiped on fresh install).
+18. [ ] Officer card bottom line reads "Reference copy. Not an official FAA document. Carry your certificate."
+19. [ ] Free tier (before buying Pro, or on a fresh install): battery and props maintenance logging works for your 1 drone.
+20. [ ] Airplane mode: everything except purchases still works.
 
 Report any Xcode errors by pasting the red error text.

@@ -7,6 +7,7 @@ enum AppConfig {
     static let proID = "com.mikejohnson.dronelogbook.pro"
     static let privacyURL = URL(string: "https://github.com/j78fn4wwrs-bit/drone-logbook/blob/main/PRIVACY.md")!
     static let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+    static let officerCardLine = "Reference copy. Not an official FAA document. Carry your certificate."
     static let disclaimer = "Reference copy only, not an official FAA credential."
     static let proFeatures = [
         "Unlimited drones in your hangar",
@@ -21,6 +22,11 @@ enum AppConfig {
 struct DroneLogbookApp: App {
     @StateObject private var store = MJStore(proProductIDs: [AppConfig.proID])
     @StateObject private var profileStore = PilotProfileStore()
+
+    init() {
+        // Kayla: Keychain items survive app deletion, so wipe them on the first launch after install.
+        MJSecureStore.wipeIfFreshInstall()
+    }
 
     var body: some Scene {
         WindowGroup {

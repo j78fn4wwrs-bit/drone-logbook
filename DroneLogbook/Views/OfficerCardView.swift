@@ -31,8 +31,8 @@ struct OfficerCardView: View {
                     topBar
                     card
                     buttons
-                    Text(AppConfig.disclaimer)
-                        .font(.footnote)
+                    Text(AppConfig.officerCardLine)
+                        .font(.footnote.weight(.semibold))
                         .foregroundStyle(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
                 }
@@ -99,11 +99,11 @@ struct OfficerCardView: View {
     private var card: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Label("REMOTE PILOT", systemImage: "checkmark.shield.fill")
+                Text("PILOT REFERENCE")
                     .font(.caption.weight(.semibold))
                     .tracking(1.2)
                 Spacer()
-                Text("FAA Part 107")
+                Text("Reference copy")
                     .font(.caption.weight(.medium))
                     .foregroundStyle(.white.opacity(0.7))
             }
@@ -131,7 +131,7 @@ struct OfficerCardView: View {
             } else {
                 Grid(alignment: .leading, horizontalSpacing: 16, verticalSpacing: 12) {
                     GridRow {
-                        field("CERTIFICATE #", profile.part107CertNumber)
+                        field("PART 107 #", profile.part107CertNumber)
                         field("ISSUED", profile.part107IssueDate?.shortDate ?? "—")
                     }
                     GridRow {
