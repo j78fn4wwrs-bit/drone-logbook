@@ -4,6 +4,7 @@ import MJKit
 
 struct UpgradeSheet: View {
     @EnvironmentObject private var store: MJStore
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         VStack(spacing: 0) {
             MJPaywallView(store: store,
@@ -16,6 +17,9 @@ struct UpgradeSheet: View {
                 .foregroundStyle(Color.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding()
+        }
+        .onChange(of: store.isPro) { _, unlocked in
+            if unlocked { dismiss() }
         }
     }
 }
@@ -82,11 +86,17 @@ struct SettingsView: View {
                 }
                 Section {
                     if store.isPro {
-                        if let csv = Exporter.csvFile(flights: flights) {
-                            ShareLink(item: csv) { Label("Export Log as CSV", systemImage: "tablecells") }
+                        Button {
+                            if let csv = Exporter.csvFile(flights: flights) { ShareSheet.present(csv) }
+                        } label: {
+                            Label("Export Log as CSV", systemImage: "tablecells")
                         }
-                        if let pdf = Exporter.pdfFile(flights: flights, pilotName: profileStore.profile.name) {
-                            ShareLink(item: pdf) { Label("Export Log as PDF", systemImage: "doc.richtext") }
+                        Button {
+                            if let pdf = Exporter.pdfFile(flights: flights, pilotName: profileStore.profile.name) {
+                                ShareSheet.present(pdf)
+                            }
+                        } label: {
+                            Label("Export Log as PDF", systemImage: "doc.richtext")
                         }
                     } else {
                         Button { showPaywall = true } label: {

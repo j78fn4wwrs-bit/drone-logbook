@@ -20,12 +20,19 @@ enum AppConfig {
 
 @main
 struct DroneLogbookApp: App {
-    @StateObject private var store = MJStore(proProductIDs: [AppConfig.proID])
-    @StateObject private var profileStore = PilotProfileStore()
+    @StateObject private var store: MJStore
+    @StateObject private var profileStore: PilotProfileStore
 
     init() {
-        // Kayla: Keychain items survive app deletion, so wipe them on the first launch after install.
+        // Keychain items survive deletion. Wipe before the profile store can read
+        // the Part 107 number. These StateObject closures run on first access.
         MJSecureStore.wipeIfFreshInstall()
+        _store = StateObject(wrappedValue: MainActor.assumeIsolated {
+            MJStore(proProductIDs: [AppConfig.proID])
+        })
+        _profileStore = StateObject(wrappedValue: MainActor.assumeIsolated {
+            PilotProfileStore()
+        })
     }
 
     var body: some Scene {

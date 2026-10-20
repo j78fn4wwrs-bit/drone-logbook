@@ -29,6 +29,10 @@ struct FlightLogView: View {
         return flights.filter { cal.isDate($0.start, equalTo: Date(), toGranularity: .month) }.count
     }
 
+    private var months: [MonthGroup<Flight>] {
+        MonthGroup.make(filtered, date: \.start)
+    }
+
     var body: some View {
         NavigationStack {
             Group {
@@ -52,7 +56,7 @@ struct FlightLogView: View {
                             .listRowInsets(EdgeInsets())
                             .listRowBackground(Color.clear)
                         }
-                        ForEach(MonthGroup<Flight>.make(filtered) { $0.start }) { month in
+                        ForEach(months) { month in
                             Section(month.title) {
                                 ForEach(month.items) { flight in
                                     Button { editing = flight } label: { FlightRow(flight: flight) }
@@ -74,11 +78,19 @@ struct FlightLogView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     if store.isPro && !flights.isEmpty {
                         Menu {
-                            if let csv = Exporter.csvFile(flights: flights) {
-                                ShareLink(item: csv) { Label("Export CSV", systemImage: "tablecells") }
+                            Button {
+                                if let csv = Exporter.csvFile(flights: flights) {
+                                    ShareSheet.present(csv, waitForMenuDismissal: true)
+                                }
+                            } label: {
+                                Label("Export CSV", systemImage: "tablecells")
                             }
-                            if let pdf = Exporter.pdfFile(flights: flights, pilotName: profileStore.profile.name) {
-                                ShareLink(item: pdf) { Label("Export PDF", systemImage: "doc.richtext") }
+                            Button {
+                                if let pdf = Exporter.pdfFile(flights: flights, pilotName: profileStore.profile.name) {
+                                    ShareSheet.present(pdf, waitForMenuDismissal: true)
+                                }
+                            } label: {
+                                Label("Export PDF", systemImage: "doc.richtext")
                             }
                         } label: {
                             Image(systemName: "square.and.arrow.up")
@@ -151,11 +163,11 @@ struct FlightEditView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Drone.createdAt) private var drones: [Drone]
-    @StateObject private var location = LocationFetcher()
+    @StateObject private var location = MainActor.assumeIsolated { LocationFetcher() }
 
     @State private var start: Date
     @State private var minutes: Int
-    @State private var drone: Drone?
+    @State private var droneID: UUID?
     @State private var locationName: String
     @State private var latitude: Double?
     @State private var longitude: Double?
@@ -167,7 +179,7 @@ struct FlightEditView: View {
         self.flight = flight
         _start = State(initialValue: flight?.start ?? Date())
         _minutes = State(initialValue: flight?.durationMinutes ?? 15)
-        _drone = State(initialValue: flight?.drone)
+        _droneID = State(initialValue: flight?.drone?.uuid)
         _locationName = State(initialValue: flight?.locationName ?? "")
         _latitude = State(initialValue: flight?.latitude)
         _longitude = State(initialValue: flight?.longitude)
@@ -181,20 +193,18 @@ struct FlightEditView: View {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 
+    private var selectedDrone: Drone? {
+        guard let droneID else { return nil }
+        return drones.first { $0.uuid == droneID }
+    }
+
     var body: some View {
         NavigationStack {
             Form {
                 Section {
                     if let coordinate {
-                        Map(initialPosition: .region(MKCoordinateRegion(center: coordinate,
-                                                                         latitudinalMeters: 800,
-                                                                         longitudinalMeters: 800))) {
-                            Marker("Flight", coordinate: coordinate)
-                        }
-                        .id("\(coordinate.latitude),\(coordinate.longitude)")
-                        .frame(height: 130)
-                        .listRowInsets(EdgeInsets())
-                        .allowsHitTesting(false)
+                        FlightMap(coordinate: coordinate)
+                            .id("\(coordinate.latitude),\(coordinate.longitude)")
                     }
                     Button {
                         location.request()
@@ -216,10 +226,10 @@ struct FlightEditView: View {
                 }
                 Section("Flight") {
                     DatePicker("Date & time", selection: $start)
-                    Picker("Drone", selection: $drone) {
-                        Text("Choose…").tag(nil as Drone?)
+                    Picker("Drone", selection: $droneID) {
+                        Text("Choose…").tag(nil as UUID?)
                         ForEach(drones) { d in
-                            Text(d.displayName).tag(Optional(d))
+                            Text(d.displayName).tag(d.uuid as UUID?)
                         }
                     }
                     Stepper(value: $minutes, in: 0...600, step: 1) {
@@ -245,12 +255,11 @@ struct FlightEditView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { save() }.disabled(drone == nil)
+                    Button("Save") { save() }.disabled(selectedDrone == nil)
                 }
             }
-            .onAppear {
-                if flight == nil, drone == nil { drone = drones.first }
-            }
+            .onAppear { selectDefaultDrone() }
+            .onChange(of: drones.count) { _, _ in selectDefaultDrone() }
             .onReceive(location.$coordinate) { coord in
                 guard let coord else { return }
                 latitude = coord.latitude
@@ -258,6 +267,10 @@ struct FlightEditView: View {
                 if locationName.isEmpty { locationName = coord.shortString }
             }
         }
+    }
+
+    private func selectDefaultDrone() {
+        if flight == nil, droneID == nil { droneID = drones.first?.uuid }
     }
 
     private func save() {
@@ -270,7 +283,7 @@ struct FlightEditView: View {
         }
         target.start = start
         target.durationMinutes = minutes
-        target.drone = drone
+        target.drone = selectedDrone
         target.locationName = locationName
         target.latitude = latitude
         target.longitude = longitude
@@ -278,5 +291,20 @@ struct FlightEditView: View {
         target.weather = weather
         target.notes = notes
         dismiss()
+    }
+}
+
+/// Split out of the flight form so `Map(initialPosition:)` and `Marker` type-check on their own.
+private struct FlightMap: View {
+    let coordinate: CLLocationCoordinate2D
+
+    var body: some View {
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 800, longitudinalMeters: 800)
+        Map(initialPosition: .region(region)) {
+            Marker("Flight", coordinate: coordinate)
+        }
+        .frame(height: 130)
+        .listRowInsets(EdgeInsets())
+        .allowsHitTesting(false)
     }
 }

@@ -1,8 +1,31 @@
 import Foundation
 import UIKit
 
+@MainActor
+enum ShareSheet {
+    /// Presents the system share sheet. Pass `waitForMenuDismissal` when the tap came from a `Menu`, which is still on screen for this turn.
+    static func present(_ url: URL, waitForMenuDismissal: Bool = false) {
+        Task { @MainActor in
+            if waitForMenuDismissal {
+                try? await Task.sleep(for: .milliseconds(350))
+            }
+            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
+            guard let root = scene?.keyWindow?.rootViewController ?? scene?.windows.first?.rootViewController else { return }
+            var top = root
+            while let presented = top.presentedViewController {
+                top = presented
+            }
+            let activity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            top.present(activity, animated: true)
+        }
+    }
+}
+
 /// Builds CSV/PDF copies of the pilot log. IACRA credentials and document files
 /// are never included. Files go to the temp folder with complete protection.
+/// Call `csvFile` / `pdfFile` from a tap, not from `body`, so the files are not rewritten on every redraw.
+@MainActor
 enum Exporter {
     static func csvEscape(_ s: String) -> String {
         if s.contains(",") || s.contains("\"") || s.contains("\n") {

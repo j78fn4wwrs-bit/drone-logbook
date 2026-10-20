@@ -23,11 +23,11 @@ final class Drone {
     var registrationNumber: String = ""
     /// Remote ID serial: the drone's serial (standard Remote ID) or the broadcast module's serial.
     var remoteIDSerial: String = ""
-    var purchaseDate: Date?
+    var purchaseDate: Date? = nil
     var firmwareVersion: String = ""
     var statusRaw: String = DroneStatus.active.rawValue
     var notes: String = ""
-    @Attribute(.externalStorage) var photoData: Data?
+    @Attribute(.externalStorage) var photoData: Data? = nil
     var createdAt: Date = Date()
 
     @Relationship(deleteRule: .cascade, inverse: \MaintenanceEntry.drone)
@@ -102,9 +102,9 @@ final class MaintenanceEntry {
     var date: Date = Date()
     var kindRaw: String = MaintenanceKind.maintenance.rawValue
     var component: String = ""
-    var cycles: Int?
+    var cycles: Int? = nil
     var notes: String = ""
-    var drone: Drone?
+    var drone: Drone? = nil
 
     init(kind: MaintenanceKind = .maintenance, drone: Drone? = nil) {
         self.kindRaw = kind.rawValue
@@ -122,12 +122,12 @@ final class Flight {
     var start: Date = Date()
     var durationMinutes: Int = 0
     var locationName: String = ""
-    var latitude: Double?
-    var longitude: Double?
+    var latitude: Double? = nil
+    var longitude: Double? = nil
     var purpose: String = ""
     var weather: String = ""
     var notes: String = ""
-    var drone: Drone?
+    var drone: Drone? = nil
 
     init(start: Date = Date()) {
         self.start = start
@@ -171,10 +171,10 @@ final class DocumentRecord {
     var kindRaw: String = DocumentKind.other.rawValue
     var title: String = ""
     var number: String = ""
-    var issueDate: Date?
-    var expiryDate: Date?
+    var issueDate: Date? = nil
+    var expiryDate: Date? = nil
     /// File name inside the app's protected Vault folder (not the data itself).
-    var fileName: String?
+    var fileName: String? = nil
     var notes: String = ""
     var createdAt: Date = Date()
 
