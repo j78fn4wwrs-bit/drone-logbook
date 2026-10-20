@@ -1,0 +1,29 @@
+{
+  "identifier" : "D7E8F9A0",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "6740000101",
+      "localizations" : [
+        {
+          "description" : "Unlimited drones, PDF and CSV export, and expiry reminders.",
+          "displayName" : "Drone Logbook Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.mikejohnson.dronelogbook.pro",
+      "referenceName" : "Drone Logbook Pro",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [],
+  "version" : { "major" : 4, "minor" : 0 }
+}

@@ -1,0 +1,49 @@
+name: DroneLogbook
+options:
+  bundleIdPrefix: com.mikejohnson
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  xcodeVersion: "26.0"
+packages:
+  MJKit:
+    url: https://github.com/j78fn4wwrs-bit/MJKit
+    branch: main
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    DEAD_CODE_STRIPPING: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: NO
+    ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: brand
+targets:
+  DroneLogbook:
+    type: application
+    platform: iOS
+    sources:
+      - path: DroneLogbook
+      - path: Products.storekit
+        buildPhase: none
+    dependencies:
+      - package: MJKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mikejohnson.dronelogbook
+        PRODUCT_NAME: DroneLogbook
+        INFOPLIST_FILE: DroneLogbook/App/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
+schemes:
+  DroneLogbook:
+    build:
+      targets:
+        DroneLogbook: all
+    run:
+      config: Debug
+      storeKitConfiguration: Products.storekit
