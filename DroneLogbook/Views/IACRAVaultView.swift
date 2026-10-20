@@ -100,9 +100,13 @@ struct IACRAVaultView: View {
 
     private func copyButton(_ value: String) -> some View {
         Button {
-            UIPasteboard.general.setItems([[UIPasteboard.typeAutomatic: value]],
-                                          options: [.localOnly: true,
-                                                    .expirationDate: Date().addingTimeInterval(60)])
+            // Typed explicitly: a mixed Bool/Date literal often fails to type-check as [OptionsKey: Any].
+            let item: [String: Any] = [UIPasteboard.typeAutomatic: value]
+            let options: [UIPasteboard.OptionsKey: Any] = [
+                .localOnly: true,
+                .expirationDate: Date().addingTimeInterval(60)
+            ]
+            UIPasteboard.general.setItems([item], options: options)
         } label: {
             Image(systemName: "doc.on.doc")
         }

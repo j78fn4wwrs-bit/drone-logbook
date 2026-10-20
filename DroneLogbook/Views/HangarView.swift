@@ -266,7 +266,7 @@ struct MaintenanceListView: View {
     }
 
     private var months: [MonthGroup<MaintenanceEntry>] {
-        MonthGroup<MaintenanceEntry>.make(entries) { $0.date }
+        MonthGroup.make(entries, date: \.date)
     }
 
     var body: some View {

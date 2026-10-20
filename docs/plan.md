@@ -22,7 +22,7 @@ About 3-4 weeks to App Store submission, and it reuses the teleprompter's StoreK
 It pairs with the drone location app that's in progress. The location app shows where you can fly, and this app records what you flew and holds your proof.
 
 ## Risks
-- Wording: the app is a reference only, not an official FAA credential. Officers can ask to see the actual certificate, though a digital copy is generally acceptable.
+- Wording: the app is a reference only, not an official FAA credential. 14 CFR 107.7 requires the physical certificate. The app must never say a digital copy is acceptable. The Quick-Reference Card says "Reference copy. Not an official FAA document. Carry your certificate." and shows no FAA seal or logo.
 - The App Store already has drone logging apps, so the "Show Officer" card and offline privacy need to stand out.
 - Sensitive IDs need the Keychain and Face ID.
 

@@ -3,6 +3,7 @@ import UserNotifications
 import MJKit
 
 /// Local-only expiry reminders (Pro). Notification text never contains IDs or numbers.
+@MainActor
 enum Reminders {
     static func requestPermission() async -> Bool {
         (try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])) ?? false

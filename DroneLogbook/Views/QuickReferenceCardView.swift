@@ -9,7 +9,7 @@ struct QuickReferenceCardView: View {
     @Query(sort: \Drone.createdAt) private var drones: [Drone]
     @Query private var documents: [DocumentRecord]
     @AppStorage("referenceCardDroneUUID") private var referenceCardDroneUUID = ""
-    @State private var savedBrightness: CGFloat = 0.5
+    @State private var savedBrightness: CGFloat?
     @State private var showCertificate = false
     @State private var showProfileEditor = false
 
@@ -41,13 +41,19 @@ struct QuickReferenceCardView: View {
         }
         .environment(\.colorScheme, .dark)
         .onAppear {
-            savedBrightness = UIScreen.main.brightness
-            UIScreen.main.brightness = 1.0
+            let screen = Self.activeScreen
+            if savedBrightness == nil {
+                savedBrightness = screen?.brightness
+            }
+            screen?.brightness = 1
             UIApplication.shared.isIdleTimerDisabled = true
             profileStore.reloadSecureFields()
         }
         .onDisappear {
-            UIScreen.main.brightness = savedBrightness
+            if let savedBrightness {
+                Self.activeScreen?.brightness = savedBrightness
+            }
+            savedBrightness = nil
             UIApplication.shared.isIdleTimerDisabled = false
         }
         .sheet(isPresented: $showCertificate) {
@@ -69,6 +75,12 @@ struct QuickReferenceCardView: View {
         }
     }
 
+    /// `UIScreen.main` is deprecated. Brightness has to come from the scene that is on screen.
+    private static var activeScreen: UIScreen? {
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        return scenes.first { $0.activationState == .foregroundActive }?.screen ?? scenes.first?.screen
+    }
+
     private var topBar: some View {
         HStack {
             Button { dismiss() } label: {
@@ -80,7 +92,7 @@ struct QuickReferenceCardView: View {
             Spacer()
             Text("Quick-Reference Card").font(.headline)
             Spacer()
-            Button { UIScreen.main.brightness = 1.0 } label: {
+            Button { Self.activeScreen?.brightness = 1 } label: {
                 Image(systemName: "sun.max.fill")
                     .font(.headline)
                     .frame(width: 44, height: 44)

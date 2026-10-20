@@ -14,6 +14,20 @@ struct VaultView: View {
     var body: some View {
         NavigationStack {
             List {
+                if documents.isEmpty {
+                    Section {
+                        ContentUnavailableView {
+                            Label("No documents", systemImage: "doc.text")
+                        } description: {
+                            Text("Scan your Part 107, TRUST and registration.")
+                        } actions: {
+                            Button("Add Document") { showAdd = true }
+                                .buttonStyle(.borderedProminent)
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 280)
+                        .listRowBackground(Color.clear)
+                    }
+                }
                 if !certificates.isEmpty {
                     Section("Certificates") {
                         ForEach(certificates) { doc in row(doc) }
@@ -41,19 +55,6 @@ struct VaultView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .overlay {
-                if documents.isEmpty {
-                    ContentUnavailableView {
-                        Label("No documents", systemImage: "doc.text")
-                    } description: {
-                        Text("Scan your Part 107, TRUST and registration.")
-                    } actions: {
-                        Button("Add Document") { showAdd = true }
-                            .buttonStyle(.borderedProminent)
-                    }
-                    .padding(.bottom, 120)
-                }
-            }
             .navigationTitle("Vault")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -193,39 +194,49 @@ struct PDFKitView: UIViewRepresentable {
 }
 
 /// UIScrollView-backed image with pinch-to-zoom.
+/// Constraints that pin the image to both the frame and the content guides fight the zoom transform, so the image is framed in layoutSubviews instead.
 struct ZoomableImageView: UIViewRepresentable {
     let image: UIImage
 
-    func makeCoordinator() -> Coordinator { Coordinator() }
-
-    func makeUIView(context: Context) -> UIScrollView {
-        let scroll = UIScrollView()
-        scroll.minimumZoomScale = 1
-        scroll.maximumZoomScale = 6
-        scroll.delegate = context.coordinator
-        scroll.backgroundColor = .clear
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        scroll.addSubview(imageView)
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: scroll.frameLayoutGuide.widthAnchor),
-            imageView.heightAnchor.constraint(equalTo: scroll.frameLayoutGuide.heightAnchor),
-            imageView.leadingAnchor.constraint(equalTo: scroll.contentLayoutGuide.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: scroll.contentLayoutGuide.trailingAnchor),
-            imageView.topAnchor.constraint(equalTo: scroll.contentLayoutGuide.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: scroll.contentLayoutGuide.bottomAnchor)
-        ])
-        context.coordinator.imageView = imageView
+    func makeUIView(context: Context) -> ZoomScrollView {
+        let scroll = ZoomScrollView()
+        scroll.imageView.image = image
         return scroll
     }
 
-    func updateUIView(_ uiView: UIScrollView, context: Context) {}
-
-    final class Coordinator: NSObject, UIScrollViewDelegate {
-        weak var imageView: UIImageView?
-        func viewForZooming(in scrollView: UIScrollView) -> UIView? { imageView }
+    func updateUIView(_ uiView: ZoomScrollView, context: Context) {
+        uiView.imageView.image = image
     }
+}
+
+final class ZoomScrollView: UIScrollView, UIScrollViewDelegate {
+    let imageView = UIImageView()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        minimumZoomScale = 1
+        maximumZoomScale = 6
+        bouncesZoom = true
+        delegate = self
+        backgroundColor = .clear
+        showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = false
+        imageView.contentMode = .scaleAspectFit
+        addSubview(imageView)
+    }
+
+    required init?(coder: NSCoder) { return nil }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard zoomScale <= minimumZoomScale + 0.01 else { return }
+        let target = bounds
+        guard imageView.frame.size != target.size || contentSize != target.size else { return }
+        imageView.frame = target
+        contentSize = target.size
+    }
+
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? { imageView }
 }
 
 struct DocumentEditView: View {
