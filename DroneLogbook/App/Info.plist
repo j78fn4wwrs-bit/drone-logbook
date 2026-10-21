@@ -20,6 +20,6 @@
 	<key>UIRequiresFullScreen</key><true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key><false/>
 	<key>NSLocationWhenInUseUsageDescription</key><string>Drone Pocket Logbook uses your location only when you tap "Use Current Location" to fill in where a flight happened. It stays on your iPhone.</string>
-	<key>NSFaceIDUsageDescription</key><string>Drone Pocket Logbook uses Face ID to protect your IACRA login and FTN.</string>
+	<key>NSFaceIDUsageDescription</key><string>Face ID is used only to unlock your saved IACRA username and FTN.</string>
 </dict>
 </plist>
