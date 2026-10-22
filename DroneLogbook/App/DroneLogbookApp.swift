@@ -5,8 +5,8 @@ import MJKit
 enum AppConfig {
     static let appName = "Drone Pocket Logbook"
     static let proID = "com.mikejohnson.dronelogbook.pro"
-    static let privacyURL = URL(string: "https://github.com/j78fn4wwrs-bit/drone-logbook/blob/main/PRIVACY.md")!
-    static let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+    static let privacyURL = URL(string: "https://j78fn4wwrs-bit.github.io/app-legal/drone-pocket-logbook/privacy-policy.html")!
+    static let termsURL = URL(string: "https://j78fn4wwrs-bit.github.io/app-legal/drone-pocket-logbook/terms-of-use.html")!
     static let referenceCardLine = "Reference copy. Not an official FAA document. Carry your certificate."
     static let disclaimer = "Reference copy only, not an official FAA credential."
     static let proFeatures = [
