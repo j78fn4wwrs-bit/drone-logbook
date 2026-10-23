@@ -1,6 +1,6 @@
 # Drone Pocket Logbook
 
-SwiftUI + SwiftData iOS 18 app. Bundle ID `com.mikejohnson.dronelogbook`. Free download; one-time **$4.99 Pro** (`com.mikejohnson.dronelogbook.pro`).
+SwiftUI + SwiftData iOS 18 app. Bundle ID `com.mikejohnson.dronelogbook`. Free download; one-time **$7.99 Pro** (`com.mikejohnson.dronelogbook.pro`).
 Publisher: I Like Color ([CONTACT EMAIL]). Shared code comes from [MJKit](https://github.com/j78fn4wwrs-bit/MJKit) (SPM, branch `main`). Design: `docs/design/SPEC.md` (Jim). Plan: `docs/plan.md`.
 
 ## Mike's steps (Mac)

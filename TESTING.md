@@ -7,7 +7,7 @@ Build: `cd ~/drone-logbook && git pull && xcodegen`, then Cmd+R on your iPhone. 
 3. [ ] Tap **Quick-Reference Card** (floating button) from each tab: the card opens full screen, the screen jumps to full brightness, and closing it restores your old brightness.
 4. [ ] Quick-Reference Card shows name, cert #, recurrent due, TRUST and FAA registration. With no Part 107 # it shows "Add your Part 107 certificate".
 5. [ ] Hangar: add a drone (make, model, serial, FAA reg, Remote ID serial, purchase date, firmware, photo). It appears on the Quick-Reference Card.
-6. [ ] Hangar: tap + again: the $4.99 upgrade sheet appears (free tier = 1 drone). Price shows $4.99.
+6. [ ] Hangar: tap + again: the $7.99 upgrade sheet appears (free tier = 1 drone). Price shows $7.99.
 7. [ ] Buy Pro in the sheet (test mode, free). The sheet closes; adding a second drone now works. Switch Drone on the Quick-Reference Card picks between them.
 8. [ ] Drone detail: log a battery entry with cycles and a props entry. "See all" filters by All/Aircraft/Batteries/Props.
 9. [ ] Log: tap + > "Use Current Location". Allow "While Using". Map pin and coordinates appear. Deny on a second test: you can still type a location.
