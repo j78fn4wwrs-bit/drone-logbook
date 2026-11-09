@@ -13,7 +13,7 @@ An offline iPhone app that holds a Part 107 pilot's documents, drones and flight
 - **Privacy:** everything is stored on the phone (SwiftData plus files), with no account and no backend. Data Not Collected.
 
 ## Monetization
-Mike's pricing (Oct 19): the app is a free download and includes 1 drone, the log and the Show Officer card. A one-time $4.99 in-app upgrade unlocks the full app: unlimited drones, PDF export, the widget and reminders. It uses StoreKit 2, the same as the teleprompter.
+Mike's pricing (Oct 19): the app is a free download and includes 1 drone, the log and the Show Officer card. A one-time $7.99 in-app upgrade (raised from $4.99; confirmed by Mike Oct 22) unlocks the full app: unlimited drones, PDF export, the widget and reminders. It uses StoreKit 2, the same as the teleprompter.
 
 ## Effort and cost
 About 3-4 weeks to App Store submission, and it reuses the teleprompter's StoreKit and paywall code. $0 beyond the $99 Apple fee.
@@ -43,5 +43,5 @@ The teleprompter ships first: core app pushed, waiting on Mike's first build and
 - Timing is unchanged: work starts after the teleprompter is submitted.
 
 ## FINAL DIRECTION (Oct 19, 10:26 PM, Michael via Chief). This supersedes the one-app section above.
-- SEPARATE apps. The Drone Pocket Logbook comes after the teleprompter: a free download with a one-time $4.99 upgrade.
+- SEPARATE apps. The Drone Pocket Logbook comes after the teleprompter: a free download with a one-time $7.99 upgrade.
 - The drone spot finder is its own DFW-only beta, later. Shared Swift code between the two is welcome.

@@ -1,5 +1,5 @@
 # Drone Pocket Logbook: Design Spec v1 (Jim Design, Oct 19 2026)
-For Nihar. Follows plan.md FINAL DIRECTION: a separate app, free download, one-time $4.99 upgrade. **All data in the mockups is placeholder. No real license or registration numbers.**
+For Nihar. Follows plan.md FINAL DIRECTION: a separate app, free download, one-time $7.99 upgrade (was $4.99). **All data in the mockups is placeholder. No real license or registration numbers.**
 
 ## 1. Visual direction
 - **Mood:** aviation instrument panel. Night-navy, "horizon blue" primary, beacon-orange accent kept for one highlight per screen. Status colors follow airfield language: clearance green, caution amber, restricted red.
@@ -64,7 +64,7 @@ Root `TabView` with 5 tabs: **Officer** (shield.checkered), **Vault** (folder.ba
 10. **10_pilot_log**: an `HStack` of 3 stat tiles (Flights, Hours, This month), then a `List` sectioned by month. Row: a date badge (month in caption2 red, day title2), a `VStack` with location and drone·purpose, then the duration (monospaced). The leading toolbar Export (ShareLink → PDF is Pro, CSV is free). The trailing "+" opens 11. Use `.searchable`.
 11. **11_add_flight**: a sheet with a `NavigationStack` + `Form`: a MapKit `Map` snapshot 130pt tall with a pin (current GPS, editable), then a Flight section (DatePicker, Drone Picker, Duration with a start/stop timer option, Purpose Picker plus custom, Weather that's manual or WeatherKit*), then Notes in a TextEditor. Cancel / Save (disabled until a drone is set).
 12. **12_log_empty**: `ContentUnavailableView` with a "Log a Flight" button.
-13. **13_paywall**: a sheet. `VStack`: icon, title, "One-time purchase", a 4-row benefit list, then a `Spacer`, the "Unlock for $4.99" button (StoreKit 2 `Product.displayPrice`, never hardcode it) and the free-tier footnote. Restore goes in the toolbar. Reuse the teleprompter paywall code.
+13. **13_paywall**: a sheet. `VStack`: icon, title, "One-time purchase", a 4-row benefit list, then a `Spacer`, the "Unlock for $7.99" button (StoreKit 2 `Product.displayPrice`, never hardcode it) and the free-tier footnote. Restore goes in the toolbar. Reuse the teleprompter paywall code.
 14. **14_settings**: a `List`: Upgrade row (hidden once Pro is unlocked), Reminders (Toggle and lead time; Pro), Data (Export, Privacy explainer). Also add About and Disclaimer.
 
 Every screen except 02 has light and dark PNGs (`*_dark.png`). The PNGs are 1179×2556 (393×852 @3x).
